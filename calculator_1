@@ -1,0 +1,297 @@
+package main;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+//import javax.swing.AbstractAction;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
+public class Calculator implements ActionListener{
+	String finalValue = "0", operatorValue;
+	float result;
+	JFrame frame;//initializing frame as object from JFrame globally
+	JLabel displayLabel;//initializing displayLabel from JLabel globally
+	JButton nineButton, eightButton, sevenButton, sixButton, fiveButton, fourButton, threeButton, twoButton, oneButton, equalButton, zeroButton, pointButton, divButton, multButton, negButton, plusButton, clearButton;
+	
+	public static void main(String[] args) {
+		new Calculator();//no need to create an object => calling constructor Calculator
+	}
+	public Calculator() {
+		frame = new JFrame("Calculator"/*title*/);//for create an object for JFrame class
+		frame.setLayout(null);//setting up the layout//setting up ordered class
+		frame.setSize(600, 600);//setting the size of the frame
+		frame.setVisible(true);//for displaying the Frame
+		frame.setLocation(300, 150);//for setting location of Frame
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//for default termination on closing
+		
+		displayLabel = new JLabel("");//for creating a display to show
+		displayLabel.setBounds(40, 40, 500, 90);//setting size and location of display
+		displayLabel.setBackground(Color.lightGray);//setup of backg color of display
+		displayLabel.setForeground(Color.BLACK);//setup of forg color in display
+		displayLabel.setOpaque(true);//assigning the color to display
+		displayLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		displayLabel.setText("0");
+		displayLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+		frame.add(displayLabel);//adding the display to frame
+		
+		sevenButton = new JButton("7");//assigning new button
+		sevenButton.setBounds(50, 200, 60, 50);//setting size and location
+		sevenButton.setFont(new Font("Arial", Font.PLAIN, 30));//setting size and style of font
+		sevenButton.addActionListener(this);//listening to click action
+		frame.add(sevenButton);//adding the assigned button to frame
+		
+		eightButton = new JButton("8");
+		eightButton.setBounds(140, 200, 60, 50);
+		eightButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		eightButton.addActionListener(this);
+		frame.add(eightButton);
+		
+		nineButton = new JButton("9");
+		nineButton.setBounds(230, 200, 60, 50);
+		nineButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		nineButton.addActionListener(this);
+		frame.add(nineButton);
+		
+		fourButton = new JButton("4");
+		fourButton.setBounds(50, 270, 60, 50);
+		fourButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		fourButton.addActionListener(this);
+		frame.add(fourButton);
+		
+		fiveButton = new JButton("5");
+		fiveButton.setBounds(140, 270, 60, 50);
+		fiveButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		fiveButton.addActionListener(this);
+		frame.add(fiveButton);
+		
+		sixButton = new JButton("6");
+		sixButton.setBounds(230, 270, 60, 50);
+		sixButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		sixButton.addActionListener(this);
+		frame.add(sixButton);
+		
+		oneButton = new JButton("1");
+		oneButton.setBounds(50, 340, 60, 50);
+		oneButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		oneButton.addActionListener(this);
+		frame.add(oneButton);
+		
+		twoButton = new JButton("2");
+		twoButton.setBounds(140, 340, 60, 50);
+		twoButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		twoButton.addActionListener(this);
+		frame.add(twoButton);
+		
+		threeButton = new JButton("3");
+		threeButton.setBounds(230, 340, 60, 50);
+		threeButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		threeButton.addActionListener(this);
+		frame.add(threeButton);
+		
+		pointButton = new JButton(".");
+		pointButton.setBounds(50, 410, 60, 50);
+		pointButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		pointButton.addActionListener(this);
+		frame.add(pointButton);
+		
+		zeroButton = new JButton("0");
+		zeroButton.setBounds(140, 410, 60, 50);
+		zeroButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		zeroButton.addActionListener(this);
+		frame.add(zeroButton);
+		
+		equalButton = new JButton("=");
+		equalButton.setBounds(230, 410, 60, 50);
+		equalButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		equalButton.addActionListener(this);
+		frame.add(equalButton);
+		
+		divButton = new JButton("÷");
+		divButton.setBounds(340, 200, 80, 50);
+		divButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		divButton.addActionListener(this);
+		frame.add(divButton);
+		
+		multButton = new JButton("×");
+		multButton.setBounds(340, 270, 80, 50);
+		multButton.addActionListener(this);
+		multButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		frame.add(multButton);
+		
+		negButton = new JButton("-");
+		negButton.setBounds(340, 340, 80, 50);
+		negButton.addActionListener(this);
+		negButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		frame.add(negButton);
+		
+		plusButton = new JButton("+");
+		plusButton.setBounds(340, 410, 80, 50);
+		plusButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		plusButton.addActionListener(this);
+		frame.add(plusButton);
+		
+		clearButton = new JButton("CE");
+		clearButton.setBounds(450, 200, 100, 80);
+		clearButton.setFont(new Font("Arial", Font.PLAIN, 30));
+		clearButton.addActionListener(this);
+		frame.add(clearButton);
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == nineButton) {//if action performed on nineButton
+			if (displayLabel.getText() == "0") {
+				displayLabel.setText("");
+				}
+			displayLabel.setText(displayLabel.getText()+"9");//display 9
+		}
+		else if (e.getSource() == eightButton) {
+			if (displayLabel.getText() == "0") {
+				displayLabel.setText("");
+				}
+			displayLabel.setText(displayLabel.getText()+"8");
+		}
+		else if (e.getSource() == sevenButton) {
+			if (displayLabel.getText() == "0") {
+				displayLabel.setText("");
+				}
+			displayLabel.setText(displayLabel.getText()+"7");
+		}
+		else if (e.getSource() == sixButton) {
+			if (displayLabel.getText() == "0") {
+				displayLabel.setText("");
+				}
+			displayLabel.setText(displayLabel.getText()+"6");
+		}
+		else if (e.getSource() == fiveButton) {
+			if (displayLabel.getText() == "0") {
+				displayLabel.setText("");
+				}
+			displayLabel.setText(displayLabel.getText()+"5");
+		}
+		else if (e.getSource() == fourButton) {
+			if (displayLabel.getText() == "0") {
+				displayLabel.setText("");
+				}
+			displayLabel.setText(displayLabel.getText()+"4");
+		}
+		else if (e.getSource() == threeButton) {
+			if (displayLabel.getText() == "0") {
+				displayLabel.setText("");
+				}
+			displayLabel.setText(displayLabel.getText()+"3");
+		}
+		else if (e.getSource() == twoButton) {
+			if (displayLabel.getText() == "0") {
+				displayLabel.setText("");
+				}
+			displayLabel.setText(displayLabel.getText()+"2");
+		}
+		else if (e.getSource() == oneButton) {
+			if (displayLabel.getText() == "0") {
+					displayLabel.setText("");
+					}
+			displayLabel.setText(displayLabel.getText()+"1");
+		}
+		else if (e.getSource() == zeroButton) {
+			displayLabel.setText(displayLabel.getText()+"0");
+		}
+		else if (e.getSource() == pointButton) {
+			displayLabel.setText(displayLabel.getText()+".");
+			pointButton.setEnabled(false);
+		}
+		else if (e.getSource() == equalButton) {
+			if (operatorValue == "1") {
+				float value = Float.parseFloat(displayLabel.getText());
+				float finalValue = Float.parseFloat(this.finalValue);
+				result = finalValue + value;
+				this.finalValue = (result + "");
+			}
+			if (operatorValue == "2") {
+				float value = Float.parseFloat(displayLabel.getText());
+				float finalValue = Float.parseFloat(this.finalValue);
+				result = finalValue - value;
+				this.finalValue = (result + "");
+			}
+			if (operatorValue == "3") {
+				float value = Float.parseFloat(displayLabel.getText());
+				float finalValue = Float.parseFloat(this.finalValue);
+				result = finalValue * value;
+				this.finalValue = (result + "");
+			}
+			if (operatorValue == "4") {
+				float value = Float.parseFloat(displayLabel.getText());
+				float finalValue = Float.parseFloat(this.finalValue);
+				result = finalValue / value;
+				this.finalValue = (result + "");
+			}
+			displayLabel.setText(this.finalValue);
+		}
+		else if (e.getSource() == divButton) {
+			operatorValue = "4";
+			pointButton.setEnabled(true);
+			float value = Float.parseFloat(displayLabel.getText());
+			float finalValue = Float.parseFloat(this.finalValue);
+			if (displayLabel.getText() == "0") {
+				result = finalValue + value;
+			}
+			else {
+				result =  value;
+			}
+			this.finalValue = (result + "");
+			displayLabel.setText("");
+		}
+		else if (e.getSource() == multButton) {
+			operatorValue = "3";
+			pointButton.setEnabled(true);
+			float value = Float.parseFloat(displayLabel.getText());
+			float finalValue = Float.parseFloat(this.finalValue);
+			if (displayLabel.getText() == "0") {
+				result = finalValue + value;
+			}
+			else {
+				result =  value;
+			}
+			this.finalValue = (result + "");
+			displayLabel.setText("");
+		}
+		else if (e.getSource() == negButton) {
+			operatorValue = "2";
+			pointButton.setEnabled(true);
+			float value = Float.parseFloat(displayLabel.getText());
+			float finalValue = Float.parseFloat(this.finalValue);
+			if (displayLabel.getText() == "0") {
+				result = finalValue + value;
+			}
+			else {
+				result =  value;
+			}
+			this.finalValue = (result + "");
+			displayLabel.setText("");
+		}
+		else if (e.getSource() == plusButton) {
+			operatorValue = "1";
+			pointButton.setEnabled(true);
+			float value = Float.parseFloat(displayLabel.getText());
+			float finalValue = Float.parseFloat(this.finalValue);
+			if (finalValue == 0) {
+				result = finalValue + value;
+			}
+			else {
+				result = value;
+			}
+			this.finalValue = (result + "");
+			displayLabel.setText("");
+		}
+		else if (e.getSource() == clearButton) {
+			displayLabel.setText("0");
+			this.finalValue = "0";
+			pointButton.setEnabled(true);
+		}
+	}
+
+}
